@@ -23,6 +23,7 @@ public class PayListRouter {
         return RouterFunctions
                 .route(GET("/playlist").and(accept(MediaType.APPLICATION_JSON)), handler::findAll)
                 .andRoute(GET("/playlist/{id}").and(accept(MediaType.APPLICATION_JSON)), handler::findById)
+                .andRoute(GET("/playlist-react").and(accept(MediaType.APPLICATION_JSON)), handler::findByReact)
                 .andRoute(POST("/playlist").and(accept(MediaType.APPLICATION_JSON)), handler::save);
     }
 
