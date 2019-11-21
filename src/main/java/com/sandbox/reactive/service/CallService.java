@@ -8,6 +8,7 @@ import reactor.core.publisher.Mono;
 public interface CallService {
 
     public Flux<Call> testReactiveDataBase();
+    public void testCallQueue() throws InterruptedException;
 
     
 }
