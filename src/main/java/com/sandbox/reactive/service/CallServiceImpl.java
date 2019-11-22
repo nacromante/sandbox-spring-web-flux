@@ -19,6 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
@@ -74,12 +75,13 @@ public class CallServiceImpl implements CallService{
                 .requestedUserCode(2)
                 .uuid(UUID.randomUUID().toString())
                 .build();
+
         System.out.println("[Chamando...] ");
         Thread enf1 = new Thread(() -> {
-            Iterator<Doctor> itDoctors = doctorScale1.iterator();
-            while(itDoctors.hasNext()){
+//            Iterator<Doctor> itDoctors = doctorScale1.iterator();
+            while(true){
                 try {
-                    Doctor doctor = itDoctors.next();
+                    Doctor doctor = doctorScale1.peek();
                     if(!doctorNormalBusy.contains(doctor)) {
 
                         call1.setDoctor(doctor);
@@ -88,23 +90,29 @@ public class CallServiceImpl implements CallService{
 
                         Thread.sleep(5000);
 
+                        doctorNormalBusy.remove(doctor);
+                        doctorScale1.addLast(doctor);
 //                        call1.setCallState(null);
 //                        doctorNormalBusy.removeLast();
 
                         System.out.println("[scale 1] Enfermeiro 1 -> " + doctor.getName());
                     }
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e ) {
                     e.printStackTrace();
                 }
+//                catch (NoSuchElementException e ) {
+//                    System.out.println(">>>> size "+doctorScale1.size());
+//                    break;
+//                }
             }
         });
 
 
         Thread enf2 = new Thread(() -> {
-            Iterator<Doctor> itDoctors = doctorScale2.iterator();
-            while(itDoctors.hasNext()){
+//            Iterator<Doctor> itDoctors = doctorScale2.iterator();
+            while(true){
                 try {
-                    Doctor doctor = itDoctors.next();
+                    Doctor doctor = doctorScale2.peek();
                     if(!doctorNormalBusy.contains(doctor)) {
 
                         call2.setDoctor(doctor);
@@ -113,6 +121,8 @@ public class CallServiceImpl implements CallService{
 
                         Thread.sleep(5000);
 
+                        doctorNormalBusy.remove(doctor);
+                        doctorScale2.addLast(doctor);
 //                        call2.setCallState(null);
 //                        doctorNormalBusy.removeLast();
 

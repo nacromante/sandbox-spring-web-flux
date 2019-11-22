@@ -56,6 +56,9 @@ public class CustomQueue<T>{
     synchronized public T removeLast() {
         return collection.removeLast();
     }
+    synchronized public void remove(T t) {
+        collection.remove(t);
+    }
 
     synchronized public T pollFirst() {
         return collection.pollFirst();
@@ -85,4 +88,7 @@ public class CustomQueue<T>{
     }
 
 
+    public Integer size() {
+        return collection.size();
+    }
 }
