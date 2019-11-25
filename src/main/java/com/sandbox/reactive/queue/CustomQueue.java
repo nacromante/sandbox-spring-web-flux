@@ -8,6 +8,11 @@ public class CustomQueue<T>{
 
     private ArrayDeque<T> collection = new ArrayDeque<T>();
 
+
+    public boolean isEmpty(){
+        return collection.isEmpty();
+    }
+
     public Iterator<T> iterator(){
         return collection.iterator();
     }

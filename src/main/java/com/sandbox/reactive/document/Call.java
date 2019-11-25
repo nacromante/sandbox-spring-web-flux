@@ -16,6 +16,7 @@ public class Call {
     private Doctor doctor;
     private Integer requestedUserCode;
     private CallState callState;
+    private int numberOfCalls = 1;
 
 
 }
